@@ -4,15 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Minesweeper - Discord bot</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/a8a11e940c.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <h1 class="title">Minesweeper Bot</h1>
+        <h1 class="title">Det-cord, Minesweeper for Discord</h1>
         <div class="row">
             <div class="form-group col">
                 <label for="rows">Rows</label>
@@ -46,26 +54,35 @@
             <div class="form-group col">
                 <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col">
-                <button class="btn btn-dark w-100" type="button" data-toggle="collapse" data-target="#collapseExample"
-                    aria-expanded="false" aria-controls="collapseExample">
+                <button class="btn btn-dark w-100" type="button" data-toggle="collapse" data-target="#advSettings"
+                    aria-expanded="false" aria-controls="advSettings">
                     Advanced Settings
                 </button>
-                <div class="container">
-                    <div class="collapse form-group row" id="collapseExample">
+            </div>
+            <div class="container">
+                <div class="collapse" id="advSettings">
+                    <div class="row">
                         <div class="col">
                             <label for="mineValue">Mine Emoji</label>
-                            <input class="form-control" type="text" id="mineValue" value="💥">
+                            <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setCustom()">
                         </div>
                         <div class="col">
                             <label for="clearValue">Clear Emoji</label>
-                            <input class="form-control" type="text" id="clearValue" value="🟩">
+                            <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setCustom()">
                         </div>
                         <div class="col">
                             <label for="seperatorValue">Spoiler Tags</label>
-                            <input class="form-control" type="text" id="seperatorValue" value="||">
+                            <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setCustom()">
+                        </div>
+                        <div class="col">
+                            <label>Theme</label>
+                            <select class="custom-select" id="themes" onchange="setTheme()">
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Save Theme</label>
+                            <button class="btn btn-success" onclick="save()">Save Theme</button>
                         </div>
                     </div>
                 </div>
@@ -92,10 +109,72 @@
         let cols = 0;
         let mines = 0;
 
+        let themes = {
+            default: {
+                correct: '🟩',
+                mine: '💥',
+                seperator: '||',
+            },
+            virus: {
+                correct: '⬜',
+                mine: '🦠',
+                seperator: '||',
+            }
+        };
+
+        let theme = themes.default;
         let correct = '🟩';
         let mine = '💥';
+        let spoiler = '||'
+
 
         generateGrid();
+        setupThemes();
+        function setCustom() {
+            let themeEL = document.getElementById('themes');
+            themeEL.value = 'Custom';
+        }
+
+        function save() {
+            let name = prompt('Please enter a name: ', 'Custom');
+            if(name == null || name == '') {
+                return;
+            }
+            let custom = {
+                correct: document.getElementById('clearValue').value,
+                mine: document.getElementById('mineValue').value,
+                seperator: document.getElementById('seperatorValue').value,
+            };
+
+            themes[name] = custom;
+            localStorage.setItem('themes', JSON.stringify(themes));
+            console.log(JSON.stringify(themes));
+            setupThemes();
+        }
+
+        function setupThemes() {
+            let json = localStorage.getItem('themes');
+            if(json != null && json != '') {
+                themes = null;
+                themes = JSON.parse(json);
+            }
+
+            let themesEL = document.getElementById('themes');
+            themesEL.innerHTML = '';
+            let names = Object.keys(themes);
+            names.push('Custom');
+            names.forEach(name => {
+                let option = document.createElement('option');
+                option.appendChild(document.createTextNode(cap(name)));
+                option.value = name;
+                themesEL.appendChild(option);
+            })
+        }
+        function cap(str) {
+            return str.replace(/^\w/, function (chr) {
+                return chr.toUpperCase();
+            });
+        }
 
         function toggleReveal() {
             grid.classList.toggle('d-none');
@@ -107,6 +186,16 @@
             mines = Number.parseInt(mineEL.value);
             correct = document.getElementById('clearValue').value;
             mine = document.getElementById('mineValue').value;
+            spoiler = document.getElementById('seperatorValue').value;
+        }
+
+        function setTheme() {
+            let themesEL = document.getElementById('themes');
+            theme = themes[themesEL.value];
+            if (theme == null) { return; }
+            document.getElementById('clearValue').value = theme.correct;
+            document.getElementById('mineValue').value = theme.mine;
+            document.getElementById('seperatorValue').value = theme.seperator;
         }
 
         function generateGrid() {
@@ -168,7 +257,6 @@
                     text = correct
                 }
                 cell.innerHTML = text;
-                console.log(mineCount);
                 if (mineCount == 0) {
                     //Reveal all adjacent cells as they do not have a mine
                     for (var i = Math.max(cellRow - 1, 0); i <= Math.min(cellRow + 1, rows - 1); i++) {
@@ -182,14 +270,15 @@
                 }
             }
         }
+
         function getCopy() {
             let strArray = [];
             for (var x = 0; x < rows; x++) {
                 for (var y = 0; y < cols; y++) {
                     let cell = grid.rows[x].cells[y];
-                    strArray.push('||');
+                    strArray.push(spoiler);
                     strArray.push(cell.innerHTML);
-                    strArray.push('||');
+                    strArray.push(spoiler);
                 }
                 strArray.push('\n');
             }
