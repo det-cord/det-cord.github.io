@@ -47,7 +47,30 @@
                 <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
             </div>
         </div>
-
+        <div class="row">
+            <div class="form-group col">
+                <button class="btn btn-dark w-100" type="button" data-toggle="collapse" data-target="#collapseExample"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    Advanced Settings
+                </button>
+                <div class="container">
+                    <div class="collapse form-group row" id="collapseExample">
+                        <div class="col">
+                            <label for="mineValue">Mine Emoji</label>
+                            <input class="form-control" type="text" id="mineValue" value="💥">
+                        </div>
+                        <div class="col">
+                            <label for="clearValue">Clear Emoji</label>
+                            <input class="form-control" type="text" id="clearValue" value="🟩">
+                        </div>
+                        <div class="col">
+                            <label for="seperatorValue">Spoiler Tags</label>
+                            <input class="form-control" type="text" id="seperatorValue" value="||">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container">
             <table id="grid" class="d-none"></table>
         </div>
@@ -82,6 +105,8 @@
             rows = Number.parseInt(rowsEl.value);
             cols = Number.parseInt(coluEL.value);
             mines = Number.parseInt(mineEL.value);
+            correct = document.getElementById('clearValue').value;
+            mine = document.getElementById('mineValue').value;
         }
 
         function generateGrid() {
