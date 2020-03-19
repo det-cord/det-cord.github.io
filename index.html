@@ -73,7 +73,8 @@
                         </div>
                         <div class="col">
                             <label for="seperatorValue">Spoiler Tags</label>
-                            <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setCustom()">
+                            <input class="form-control" type="text" id="seperatorValue" value="||"
+                                onkeydown="setCustom()">
                         </div>
                         <div class="col">
                             <label>Theme</label>
@@ -137,7 +138,7 @@
 
         function save() {
             let name = prompt('Please enter a name: ', 'Custom');
-            if(name == null || name == '') {
+            if (name == null || name == '') {
                 return;
             }
             let custom = {
@@ -154,7 +155,7 @@
 
         function setupThemes() {
             let json = localStorage.getItem('themes');
-            if(json != null && json != '') {
+            if (json != null && json != '') {
                 themes = null;
                 themes = JSON.parse(json);
             }
