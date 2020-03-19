@@ -1,3 +1,3 @@
-# Minesweeper
+# Det-Cord
 
-This is just a quick minesweeper demo to be hosted on [glitch](https://glitch.com) and used on Discord.
+This is a quick iterative piece to generate a minesweeper field for pasting in Discord.
