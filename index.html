@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Minesweeper - Discord bot</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/a8a11e940c.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Minesweeper Bot</h1>
+        <div class="row">
+            <div class="form-group col">
+                <label for="rows">Rows</label>
+                <input class="form-control" id="rows" type="number" value="8"></input>
+                <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+            </div>
+            <div class="form-group col">
+                <label for="columns">Columns</label>
+                <input class="form-control" id="columns" type="number" value="8"></input>
+                <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+            </div>
+            <div class="form-group col">
+                <label for="mines">Max N° of Mines</label>
+                <input class="form-control" id="mines" type="number" value="8"></input>
+                <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col">
+                <button class="btn btn-primary w-100" onclick="generateGrid()">Generate</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <button class="btn btn-success w-100" onclick="getCopy()">Copy to clipboard</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col">
+                <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <table id="grid" class="d-none"></table>
+        </div>
+    </div>
+    <footer class="footer" style="position: absolute; bottom: 0; width: 100%; background-color: #f5f5f5">
+        <div class="container">
+            <div class="col">Created by <i class="fa fa-twitter" aria-hidden="true"></i><a
+                    href="https://www.twitter.com/igniuss">@Igniuss</a></div>
+            <div class="col">Idea from <i class="fa fa-twitter" aria-hidden="true"></i><a
+                    href="https://twitter.com/HallGrae">@HallGrae</a></div>
+        </div>
+    </footer>
+    <script>
+        let grid = document.getElementById('grid');
+        let rowsEl = document.getElementById('rows');
+        let coluEL = document.getElementById('columns');
+        let mineEL = document.getElementById('mines');
+        let rows = 0;
+        let cols = 0;
+        let mines = 0;
+
+        let correct = '🟩';
+        let mine = '💥';
+
+        generateGrid();
+
+        function toggleReveal() {
+            grid.classList.toggle('d-none');
+        }
+
+        function refreshValues() {
+            rows = Number.parseInt(rowsEl.value);
+            cols = Number.parseInt(coluEL.value);
+            mines = Number.parseInt(mineEL.value);
+        }
+
+        function generateGrid() {
+            refreshValues();
+            grid.innerHTML = "";
+
+            for (var x = 0; x < rows; x++) {
+                let row = grid.insertRow(x);
+                for (var y = 0; y < cols; y++) {
+                    let cell = row.insertCell(y);
+                    var mine = document.createAttribute("data-mine");
+                    mine.value = false;
+                    cell.setAttributeNode(mine);
+                }
+            }
+            addMines();
+            calcAdjecent();
+            getCopy();
+        }
+
+        function addMines() {
+            refreshValues();
+            for (var i = 0; i < mines; i++) {
+                var row = Math.floor(Math.random() * rows);
+                var col = Math.floor(Math.random() * cols);
+                var cell = grid.rows[row].cells[col];
+                cell.setAttribute('data-mine', true);
+                cell.innerHTML = mine;
+            }
+        }
+
+        function calcAdjecent() {
+            for (var x = 0; x < rows; x++) {
+                for (var y = 0; y < cols; y++) {
+                    let cell = grid.rows[x].cells[y];
+                    simulateClick(cell);
+                }
+            }
+        }
+
+        function simulateClick(cell) {
+            //Check if the end-user clicked on a mine
+            if (cell.getAttribute("data-mine") != "true") {
+                cell.className = "clicked";
+                //Count and display the number of adjacent mines
+                var mineCount = 0;
+                var cellRow = cell.parentNode.rowIndex;
+                var cellCol = cell.cellIndex;
+                //alert(cellRow + " " + cellCol);
+                for (var i = Math.max(cellRow - 1, 0); i <= Math.min(cellRow + 1, rows - 1); i++) {
+                    for (var j = Math.max(cellCol - 1, 0); j <= Math.min(cellCol + 1, cols - 1); j++) {
+                        if (grid.rows[i].cells[j].getAttribute("data-mine") == "true") {
+                            mineCount++;
+                        }
+                    }
+                }
+                let text = `${escape(mineCount)}\uFE0F\u20E3`
+                if (mineCount == 0) {
+                    text = correct
+                }
+                cell.innerHTML = text;
+                console.log(mineCount);
+                if (mineCount == 0) {
+                    //Reveal all adjacent cells as they do not have a mine
+                    for (var i = Math.max(cellRow - 1, 0); i <= Math.min(cellRow + 1, rows - 1); i++) {
+                        for (var j = Math.max(cellCol - 1, 0); j <= Math.min(cellCol + 1, cols - 1); j++) {
+                            //Recursive Call
+                            if (grid.rows[i].cells[j].innerHTML == "") {
+                                simulateClick(grid.rows[i].cells[j]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        function getCopy() {
+            let strArray = [];
+            for (var x = 0; x < rows; x++) {
+                for (var y = 0; y < cols; y++) {
+                    let cell = grid.rows[x].cells[y];
+                    strArray.push('||');
+                    strArray.push(cell.innerHTML);
+                    strArray.push('||');
+                }
+                strArray.push('\n');
+            }
+            let result = strArray.join("");
+
+            const el = document.createElement('textarea');
+            el.value = result;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+    </script>
+</body>
+
+</html>
