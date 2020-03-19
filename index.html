@@ -21,32 +21,61 @@
 <body>
     <div class="container">
         <h1 class="title">Det-Cord</h1>
+        <p>Minesweeper for Discord, Just hit generate, copy to your clipboard, and paste into Discord!</p>
+        <div class="container row d-flex justify-content-center">
+            <table id="grid"></table>
+        </div>
         <div class="row">
             <div class="form-group col">
-                <label for="rows">Rows</label>
+                <label for="rows">Number of Rows</label>
                 <input class="form-control" id="rows" type="number" value="8"></input>
                 <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
             </div>
             <div class="form-group col">
-                <label for="columns">Columns</label>
+                <label for="columns">Number of Columns</label>
                 <input class="form-control" id="columns" type="number" value="8"></input>
                 <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
             </div>
             <div class="form-group col">
-                <label for="mines">Max N° of Mines</label>
+                <label for="mines">How many Bombs?</label>
                 <input class="form-control" id="mines" type="number" value="8"></input>
                 <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
             </div>
         </div>
-
         <div class="row">
-            <div class="form-group col">
-                <button class="btn btn-primary w-100" onclick="generateGrid()">Generate</button>
+            <div class="col">
+                <label class="lead">Theme</label>
+                <select class="custom-select" id="themes" onchange="setTheme()">
+                </select>
+            </div>
+        </div>
+        <label class="lead">Theme Settings</label>
+        <div class="row form-group">
+            <div class="col input-group">
+                <label for="mineValue" class="input-group-text">Mine Emoji</label>
+                <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setCustom()">
+            </div>
+            <div class="col input-group">
+                <label for="clearValue" class="input-group-text">Clear Emoji</label>
+                <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setCustom()">
+            </div>
+            <div class="col input-group">
+                <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
+                <input class="form-control" type="text" id="seperatorValue" value="||"
+                    onkeydown="setCustom()">
+            </div>
+            <div class="col">
+                <button id='saveBtn' class="btn btn-success w-100" onclick="save()" value="Save Theme">Save Theme</button>
             </div>
         </div>
         <div class="row">
             <div class="form-group col">
-                <button class="btn btn-success w-100" onclick="getCopy()">Copy to clipboard</button>
+                <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn" value="Generate new board">Generate</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn" value="Copy to clipboard">Copy to clipboard</button>
             </div>
         </div>
 
@@ -54,43 +83,10 @@
             <div class="form-group col">
                 <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
             </div>
-            <div class="form-group col">
-                <button class="btn btn-dark w-100" type="button" data-toggle="collapse" data-target="#advSettings"
-                    aria-expanded="false" aria-controls="advSettings">
-                    Advanced Settings
-                </button>
-            </div>
-            <div class="container">
-                <div class="collapse" id="advSettings">
-                    <div class="row">
-                        <div class="col">
-                            <label for="mineValue">Mine Emoji</label>
-                            <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setCustom()">
-                        </div>
-                        <div class="col">
-                            <label for="clearValue">Clear Emoji</label>
-                            <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setCustom()">
-                        </div>
-                        <div class="col">
-                            <label for="seperatorValue">Spoiler Tags</label>
-                            <input class="form-control" type="text" id="seperatorValue" value="||"
-                                onkeydown="setCustom()">
-                        </div>
-                        <div class="col">
-                            <label>Theme</label>
-                            <select class="custom-select" id="themes" onchange="setTheme()">
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label>Save Theme</label>
-                            <button class="btn btn-success" onclick="save()">Save Theme</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="container">
-            <table id="grid" class="d-none"></table>
+
         </div>
     </div>
     <footer class="footer" style="position: absolute; bottom: 0; width: 100%; background-color: #f5f5f5">
@@ -135,8 +131,28 @@
             let themeEL = document.getElementById('themes');
             themeEL.value = 'Custom';
         }
+        function animateButton(element, period, texts, func) {
+            element.disabled = true;
+            let original = element.value;
+            let counter = 1;
+            element.innerHTML = texts[0];
+            texts.push(original);
+            let array = texts.slice(1);
+            setTimeout(function() { 
+                if(func != null){ func();}
+                element.disabled = false;
+            }, period * array.length);
+            array.forEach(name => {
+                setTimeout(function() {
+                    element.innerHTML = name;
+                }, period * counter++);
+            });
 
+            
+        }
+        
         function save() {
+            animateButton(document.getElementById('saveBtn'), 1500, ["Saving...", "Saved! 👌"]);
             let name = prompt('Please enter a name: ', 'Custom');
             if (name == null || name == '') {
                 return;
@@ -151,6 +167,8 @@
             localStorage.setItem('themes', JSON.stringify(themes));
             console.log(JSON.stringify(themes));
             setupThemes();
+            let themesEL = document.getElementById('themes');
+            themesEL.value = name;
         }
 
         function setupThemes() {
@@ -200,20 +218,22 @@
         }
 
         function generateGrid() {
-            refreshValues();
-            grid.innerHTML = "";
-
-            for (var x = 0; x < rows; x++) {
-                let row = grid.insertRow(x);
-                for (var y = 0; y < cols; y++) {
-                    let cell = row.insertCell(y);
-                    var mine = document.createAttribute("data-mine");
-                    mine.value = false;
-                    cell.setAttributeNode(mine);
+            animateButton(document.getElementById('generateBtn'), 500, ["Generating...", "Generated! 👌"], () => {
+                refreshValues();
+                grid.innerHTML = "";
+                
+                for (var x = 0; x < rows; x++) {
+                    let row = grid.insertRow(x);
+                    for (var y = 0; y < cols; y++) {
+                        let cell = row.insertCell(y);
+                        var mine = document.createAttribute("data-mine");
+                        mine.value = false;
+                        cell.setAttributeNode(mine);
+                    }
                 }
-            }
-            addMines();
-            calcAdjecent();
+                addMines();
+                calcAdjecent();
+            });
         }
 
         function addMines() {
@@ -272,6 +292,7 @@
         }
 
         function getCopy() {
+            animateButton(document.getElementById("clipboardBtn"),1500, ["👏Copied!👏"]);
             let strArray = [];
             for (var x = 0; x < rows; x++) {
                 for (var y = 0; y < cols; y++) {
