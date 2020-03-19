@@ -19,9 +19,18 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg py-3 navbar-light bg-warning shadow-sm">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <img src="assets/logo.png" width="250" alt="" class="d-inline-block align-middle mr-2">
+            </a>
+        </div>
+    </nav>
     <div class="container">
-        <h1 class="title">Det-Cord</h1>
+        <br>
+        <br>
         <p>Minesweeper for Discord, Just hit generate, copy to your clipboard, and paste into Discord!</p>
+        <br>
         <div class="container row d-flex justify-content-center">
             <table id="grid"></table>
         </div>
@@ -61,21 +70,23 @@
             </div>
             <div class="col input-group">
                 <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
-                <input class="form-control" type="text" id="seperatorValue" value="||"
-                    onkeydown="setCustom()">
+                <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setCustom()">
             </div>
             <div class="col">
-                <button id='saveBtn' class="btn btn-success w-100" onclick="save()" value="Save Theme">Save Theme</button>
+                <button id='saveBtn' class="btn btn-success w-100" onclick="save()" value="Save Theme">Save
+                    Theme</button>
             </div>
         </div>
         <div class="row">
             <div class="form-group col">
-                <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn" value="Generate new board">Generate</button>
+                <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn"
+                    value="Generate new board">Generate</button>
             </div>
         </div>
         <div class="row">
             <div class="form-group col">
-                <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn" value="Copy to clipboard">Copy to clipboard</button>
+                <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn"
+                    value="Copy to clipboard">Copy to clipboard</button>
             </div>
         </div>
 
@@ -138,19 +149,19 @@
             element.innerHTML = texts[0];
             texts.push(original);
             let array = texts.slice(1);
-            setTimeout(function() { 
-                if(func != null){ func();}
+            setTimeout(function () {
+                if (func != null) { func(); }
                 element.disabled = false;
             }, period * array.length);
             array.forEach(name => {
-                setTimeout(function() {
+                setTimeout(function () {
                     element.innerHTML = name;
                 }, period * counter++);
             });
 
-            
+
         }
-        
+
         function save() {
             animateButton(document.getElementById('saveBtn'), 1500, ["Saving...", "Saved! 👌"]);
             let name = prompt('Please enter a name: ', 'Custom');
@@ -221,7 +232,7 @@
             animateButton(document.getElementById('generateBtn'), 500, ["Generating...", "Generated! 👌"], () => {
                 refreshValues();
                 grid.innerHTML = "";
-                
+
                 for (var x = 0; x < rows; x++) {
                     let row = grid.insertRow(x);
                     for (var y = 0; y < cols; y++) {
@@ -292,7 +303,7 @@
         }
 
         function getCopy() {
-            animateButton(document.getElementById("clipboardBtn"),1500, ["👏Copied!👏"]);
+            animateButton(document.getElementById("clipboardBtn"), 1500, ["👏Copied!👏"]);
             let strArray = [];
             for (var x = 0; x < rows; x++) {
                 for (var y = 0; y < cols; y++) {
