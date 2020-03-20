@@ -267,14 +267,19 @@
                 calcAdjecent();
             });
         }
-
+        let mineCount = 0;
         function addMines() {
+            mineCount = 0;
             refreshValues();
             for (var i = 0; i < mines; i++) {
                 var row = Math.floor(Math.random() * rows);
                 var col = Math.floor(Math.random() * cols);
                 var cell = grid.rows[row].cells[col];
-                cell.setAttribute('data-mine', true);
+                console.log(cell.getAttribute('data-mine'));
+                if(cell.getAttribute('data-mine') == 'false') {
+                    cell.setAttribute('data-mine', true);
+                    mineCount++;
+                }
                 cell.innerHTML = mine;
             }
         }
@@ -325,7 +330,11 @@
 
         function getCopy() {
             animateButton(document.getElementById("clipboardBtn"), 1500, ["👏Copied!👏"]);
+            
             let strArray = [];
+            strArray.push("***Det-Discord*** - *It's Minesweeper, for Discord!*\n\n")
+            strArray.push(`Board Dimensions: ***${cols}x${rows}***, Bombs on board: ***${mineCount}***, Clear-Space Emoji: ${correct}`);
+            strArray.push('\n\n');
             for (var x = 0; x < rows; x++) {
                 for (var y = 0; y < cols; y++) {
                     let cell = grid.rows[x].cells[y];
@@ -335,6 +344,8 @@
                 }
                 strArray.push('\n');
             }
+            strArray.push('\n');
+            strArray.push(`Generate your own at <${window.location.href}>!`);
             let result = strArray.join("");
 
             const el = document.createElement('textarea');
