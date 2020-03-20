@@ -19,107 +19,114 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg py-3 navbar-light bg-warning shadow-sm">
-        <div class="container">
-            <a href="#" class="navbar-brand">
-                <img src="assets/logo.png" width="250" alt="" class="d-inline-block align-middle mr-2">
-            </a>
-        </div>
-    </nav>
-    <div class="container" style="padding-bottom: 60px;">
-        <br><br>
-        <p>Minesweeper for Discord, Just hit generate, copy to your clipboard, and paste into Discord!</p>
-        <br>
-        <div class="container row d-flex justify-content-center">
-            <table id="grid"></table>
-        </div>
-        <br><br>
-        <div class="row">
-            <div class="form-group col">
-                <label for="rows">Number of Rows</label>
-                <input class="form-control" id="rows" type="number" value="8"></input>
-                <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+    <div id="page-content">
+        <nav class="navbar navbar-expand-lg py-3 navbar-light bg-warning shadow-sm">
+            <div class="container">
+                <a href="#" class="navbar-brand">
+                    <img src="assets/logo.png" width="250" alt="" class="d-inline-block align-middle mr-2">
+                </a>
             </div>
-            <div class="form-group col">
-                <label for="columns">Number of Columns</label>
-                <input class="form-control" id="columns" type="number" value="8"></input>
-                <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+        </nav>
+        <div class="container" style="padding-bottom: 60px;">
+            <br><br>
+            <p>Minesweeper for Discord, Just hit generate, copy to your clipboard, and paste into Discord!</p>
+            <br>
+            <div class="container row d-flex justify-content-center">
+                <table id="grid"></table>
             </div>
-            <div class="form-group col">
-                <label for="mines">How many Bombs?</label>
-                <input class="form-control" id="mines" type="number" value="8"></input>
-                <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+            <br><br>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="rows">Number of Rows</label>
+                    <input class="form-control" id="rows" type="number" value="8"></input>
+                    <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+                </div>
+                <div class="form-group col">
+                    <label for="columns">Number of Columns</label>
+                    <input class="form-control" id="columns" type="number" value="8"></input>
+                    <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+                </div>
+                <div class="form-group col">
+                    <label for="mines">How many Bombs?</label>
+                    <input class="form-control" id="mines" type="number" value="8"></input>
+                    <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label class="lead">Theme</label>
-                <select class="custom-select" id="themes" onchange="setTheme()">
-                </select>
+            <div class="row">
+                <div class="col">
+                    <label class="lead">Theme</label>
+                    <select class="custom-select" id="themes" onchange="setTheme()">
+                    </select>
+                </div>
             </div>
-        </div>
-        <label class="lead">Theme Settings</label>
-        <div class="row form-group">
-            <div class="col input-group">
-                <label for="mineValue" class="input-group-text">Mine Emoji</label>
-                <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setCustom()">
+            <label class="lead">Theme Settings</label>
+            <div class="row form-group">
+                <div class="col input-group">
+                    <label for="mineValue" class="input-group-text">Mine Emoji</label>
+                    <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setCustom()">
+                </div>
+                <div class="col input-group">
+                    <label for="clearValue" class="input-group-text">Clear Emoji</label>
+                    <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setCustom()">
+                </div>
+                <div class="col input-group">
+                    <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
+                    <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setCustom()">
+                </div>
+                <div class="col">
+                    <button id='saveBtn' class="btn btn-success w-100" onclick="save()" value="Save Theme">Save
+                        Theme</button>
+                </div>
             </div>
-            <div class="col input-group">
-                <label for="clearValue" class="input-group-text">Clear Emoji</label>
-                <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setCustom()">
+            <div class="row">
+                <div class="form-group col">
+                    <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn"
+                        value="Generate new board">Generate</button>
+                </div>
             </div>
-            <div class="col input-group">
-                <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
-                <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setCustom()">
+            <div class="row">
+                <div class="form-group col">
+                    <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn"
+                        value="Copy to clipboard">Copy to clipboard</button>
+                </div>
             </div>
-            <div class="col">
-                <button id='saveBtn' class="btn btn-success w-100" onclick="save()" value="Save Theme">Save
-                    Theme</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col">
-                <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn"
-                    value="Generate new board">Generate</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col">
-                <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn"
-                    value="Copy to clipboard">Copy to clipboard</button>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col">
-                <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
+            <div class="row">
+                <div class="form-group col">
+                    <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
+                </div>
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container align-middle">
-            <div class="col">Created by <i class="fa fa-twitter" aria-hidden="true"></i><a
-                    href="https://www.twitter.com/igniuss">@Igniuss</a></div>
-            <div class="col">Idea from <i class="fa fa-twitter" aria-hidden="true"></i><a
-                    href="https://twitter.com/HallGrae">@HallGrae</a></div>
+    <footer class="bg-light">
+        <div class="container p-2">
+            <div class="row">
+                <div class="col d-flex flex-column">
+                    <span>
+                        Created by <i class="fa fa-twitter" aria-hidden="true"></i><a
+                            href="https://www.twitter.com/igniuss">@Igniuss</a>
+                    </span>
+                    <span>
+                        Idea from <i class="fa fa-twitter" aria-hidden="true"></i><a
+                            href="https://twitter.com/HallGrae">@HallGrae</a>
+                    </span>
+                </div>
+                <div class="col text-right d-flex flex-column">
+                    <p><a href="https://github.com/igniuss/det-cord">Project Source</a></p>
+                    <small>&copy; Copyright 2020, Igniuss</small>
+                </div>
+            </div>
         </div>
     </footer>
     <style>
-        html {
-            position: relative;
-            min-height: 100%;
-        }
-
         body {
-            margin-bottom: 80px;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
         }
 
-        .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 80px;
-            background-color: #f5f5f5;
+        #page-content {
+            flex: 1;
         }
     </style>
     <script>
