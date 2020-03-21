@@ -242,7 +242,7 @@ if ('serviceWorker' in navigator) {
         console.log('Registration successful, scope is:', registration.scope);
     })
     .catch(function(err) {
-        console.log('Service worker registration failed, error:', error);
+        console.log('Service worker registration failed, error:', err);
     });
 }
 
