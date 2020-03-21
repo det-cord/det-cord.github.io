@@ -49,17 +49,17 @@
             </div>
             <br><br>
             <div class="row">
-                <div class="form-group col">
+                <div class="form-group col-lg">
                     <label for="rows">Number of Rows</label>
                     <input class="form-control" id="rows" type="number" value="8"></input>
                     <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-lg">
                     <label for="columns">Number of Columns</label>
                     <input class="form-control" id="columns" type="number" value="8"></input>
                     <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
                 </div>
-                <div class="form-group col">
+                <div class="form-group col-lg">
                     <label for="mines">How many Bombs?</label>
                     <input class="form-control" id="mines" type="number" value="8"></input>
                     <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
@@ -74,15 +74,15 @@
             </div>
             <label class="lead">Theme Settings</label>
             <div class="row form-group">
-                <div class="col input-group">
+                <div class="col-lg input-group">
                     <label for="mineValue" class="input-group-text">Mine Emoji</label>
                     <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setThemeToCustom()">
                 </div>
-                <div class="col input-group">
+                <div class="col-lg input-group">
                     <label for="clearValue" class="input-group-text">Clear Emoji</label>
                     <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setThemeToCustom()">
                 </div>
-                <div class="col input-group">
+                <div class="col-lg input-group">
                     <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
                     <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setThemeToCustom()">
                 </div>
@@ -92,20 +92,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col">
+                <div class="form-group col-lg">
                     <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn"
                         value="Generate new board">Generate</button>
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col">
+                <div class="form-group col-lg">
                     <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn"
                         value="Copy to clipboard">Copy to clipboard</button>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col">
+                <div class="form-group col-lg">
                     <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
                 </div>
             </div>
@@ -114,7 +114,7 @@
     <footer class="bg-light">
         <div class="container p-2">
             <div class="row">
-                <div class="col d-flex flex-column">
+                <div class="col-lg d-flex flex-column">
                     <span>
                         Created by <a href="https://www.twitter.com/igniuss">
                             <i class="fa fa-twitter" aria-hidden="true"></i> @Igniuss</a>
@@ -124,7 +124,7 @@
                             <i class="fa fa-twitter" aria-hidden="true"></i> @HallGrae</a>
                     </span>
                 </div>
-                <div class="col text-right d-flex flex-column">
+                <div class="col-lg text-right d-flex flex-column">
                     <p><a href="https://github.com/det-cord/det-cord.github.io">
                             <i class="fa fa-github" aria-hidden="true"></i> Project Source</a></p>
                     <small>&copy; Copyright 2020, Igniuss</small>
