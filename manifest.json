@@ -4,7 +4,7 @@
   "background_color": "#ffc107",
   "display": "standalone",
   "Scope": "/",
-  "start_url": "/?source=pwa",
+  "start_url": "./?source=pwa",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
