@@ -57,7 +57,7 @@ function getCopy() {
     animateButton(document.getElementById("clipboardBtn"), 1500, ["👏Copied!👏"]);
 
     let strArray = [];
-    strArray.push("***Det-Discord*** - *It's Minesweeper, for Discord!*\n\n")
+    strArray.push("***Det-Cord*** - *It's Minesweeper, for Discord!*\n\n")
     strArray.push(`Board Dimensions: ***${cols}x${rows}***, Bombs on board: ***${mineCount}***, Clear-Space Emoji: ${correct}`);
     strArray.push('\n\n');
     for (var x = 0; x < rows; x++) {
