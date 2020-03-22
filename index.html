@@ -26,6 +26,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/a8a11e940c.js"></script>
+    <script src="//twemoji.maxcdn.com/twemoji.min.js"></script>
 
     <link rel="manifest" href="./manifest.json">
 
@@ -48,16 +49,15 @@
             <p>Just hit Generate New Board, Copy to Clipboard, then paste into Discord!</p>
             <div class="row">
                 <div class="col">
-
                     <div class="row">
-                        <div class="form-group col-lg">
-                            <label for="rows">Number of Rows</label>
-                            <input class="form-control" id="rows" type="number" value="8"></input>
-                            <small id="columnsHelp" class="form-text text-muted">Suggested: 2-10</small>
-                        </div>
                         <div class="form-group col-lg">
                             <label for="columns">Number of Columns</label>
                             <input class="form-control" id="columns" type="number" value="8"></input>
+                            <small id="columnsHelp" class="form-text text-muted">Suggested: 2-10</small>
+                        </div>
+                        <div class="form-group col-lg">
+                            <label for="rows">Number of Rows</label>
+                            <input class="form-control" id="rows" type="number" value="8"></input>
                             <small id="columnsHelp" class="form-text text-muted">Suggested: 2-10</small>
                         </div>
                         <div class="form-group col-lg">
@@ -115,7 +115,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="table-responsive col-xl">
                     <h4>Gameboard</h4>
                     <table id="grid" class="table mx-auto"></table>
@@ -154,9 +154,15 @@
         #page-content {
             flex: 1;
         }
+        .emoji {
+            max-width: 17px;
+        }
     </style>
 
+    <script>
 
+
+    </script>
     <script src="./script.js"></script>
 </body>
 

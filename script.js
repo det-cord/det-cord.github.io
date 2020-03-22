@@ -65,7 +65,15 @@ function getCopy() {
         for (var y = 0; y < cols; y++) {
             let cell = grid.rows[x].cells[y];
             strArray.push(spoiler);
-            strArray.push(cell.innerHTML);
+            //check if tweetmoji or not
+            let imgs = cell.getElementsByTagName('img');
+            if(imgs.length > 0) {
+                for(let i = 0; i < imgs.length; i++) {
+                    strArray.push(imgs[i].alt);
+                }
+            } else {
+                strArray.push(cell.innerHTML);
+            }
             strArray.push(spoiler);
         }
         strArray.push('\n');
@@ -187,6 +195,7 @@ function addMines() {
             mineCount++;
         }
         cell.innerHTML = mine;
+        cell.value = mine;
     }
 }
 
@@ -220,6 +229,7 @@ function simulateClick(cell) {
             text = correct
         }
         cell.innerHTML = text;
+        cell.value = text;
         if (mineCount == 0) {
             //Reveal all adjacent cells as they do not have a mine
             for (var i = Math.max(cellRow - 1, 0); i <= Math.min(cellRow + 1, rows - 1); i++) {
@@ -231,10 +241,17 @@ function simulateClick(cell) {
                 }
             }
         }
+        parseEmojis();
     }
 }
 //#endregion
 
+//#region twemoji
+function parseEmojis() {
+        twemoji.size = '72x72';
+        twemoji.parse(grid);
+}
+//#endregion
 //#region service-worker
 
 if ('serviceWorker' in navigator) {
