@@ -1,6 +1,7 @@
 //#region Variables
 
 let grid = document.getElementById('grid');
+let gridParent = grid.parentElement;
 let rowsEl = document.getElementById('rows');
 let coluEL = document.getElementById('columns');
 let mineEL = document.getElementById('mines');
@@ -133,7 +134,7 @@ function reloadThemes() {
 }
 
 function toggleReveal() {
-    grid.classList.toggle('d-none');
+    gridParent.classList.toggle('d-none');
 }
 
 function refreshVariables() {

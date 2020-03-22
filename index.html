@@ -37,76 +37,85 @@
             <div class="container">
                 <a class="navbar-brand">
                     <img src="assets/logo.png" width="250" alt="" class="d-inline-block align-middle mr-2">
+                    <span class="navbar-text text-white">It's Minesweeper for Discord!</span>
                 </a>
             </div>
         </nav>
         <div class="container" style="padding-bottom: 60px;">
             <br><br>
-            <p>Minesweeper for Discord, Just hit generate, copy to your clipboard, and paste into Discord!</p>
-            <br>
-            <div class="container row d-flex justify-content-center">
-                <table id="grid"></table>
-            </div>
-            <br><br>
-            <div class="row">
-                <div class="form-group col-lg">
-                    <label for="rows">Number of Rows</label>
-                    <input class="form-control" id="rows" type="number" value="8"></input>
-                    <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
-                </div>
-                <div class="form-group col-lg">
-                    <label for="columns">Number of Columns</label>
-                    <input class="form-control" id="columns" type="number" value="8"></input>
-                    <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
-                </div>
-                <div class="form-group col-lg">
-                    <label for="mines">How many Bombs?</label>
-                    <input class="form-control" id="mines" type="number" value="8"></input>
-                    <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
-                </div>
-            </div>
+            <p>Just hit Generate New Board, Copy to Clipboard, then paste into Discord!</p>
             <div class="row">
                 <div class="col">
-                    <label class="lead">Theme</label>
-                    <select class="custom-select" id="themes" onchange="setTheme()">
-                    </select>
-                </div>
-            </div>
-            <label class="lead">Theme Settings</label>
-            <div class="row form-group">
-                <div class="col-lg input-group">
-                    <label for="mineValue" class="input-group-text">Mine Emoji</label>
-                    <input class="form-control" type="text" id="mineValue" value="💥" onkeydown="setThemeToCustom()">
-                </div>
-                <div class="col-lg input-group">
-                    <label for="clearValue" class="input-group-text">Clear Emoji</label>
-                    <input class="form-control" type="text" id="clearValue" value="🟩" onkeydown="setThemeToCustom()">
-                </div>
-                <div class="col-lg input-group">
-                    <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
-                    <input class="form-control" type="text" id="seperatorValue" value="||" onkeydown="setThemeToCustom()">
-                </div>
-                <div class="col">
-                    <button id='saveBtn' class="btn btn-success w-100" onclick="saveTheme()" value="Save Theme">Save
-                        Theme</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg">
-                    <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn"
-                        value="Generate new board">Generate</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-lg">
-                    <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn"
-                        value="Copy to clipboard">Copy to clipboard</button>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="form-group col-lg">
-                    <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle solution</button>
+                    <div class="row">
+                        <div class="form-group col-lg">
+                            <label for="rows">Number of Rows</label>
+                            <input class="form-control" id="rows" type="number" value="8"></input>
+                            <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+                        </div>
+                        <div class="form-group col-lg">
+                            <label for="columns">Number of Columns</label>
+                            <input class="form-control" id="columns" type="number" value="8"></input>
+                            <small id="columnsHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+                        </div>
+                        <div class="form-group col-lg">
+                            <label for="mines">How many Bombs?</label>
+                            <input class="form-control" id="mines" type="number" value="8"></input>
+                            <small id="minesHelp" class="form-text text-muted">Suggested between 2 and 10</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="lead">Theme</label>
+                            <select class="custom-select" id="themes" onchange="setTheme()">
+                            </select>
+                        </div>
+                    </div>
+                    <label class="lead">Theme Settings</label>
+                    <div class="row form-group">
+                        <div class="col-lg input-group">
+                            <label for="mineValue" class="input-group-text">Mine Emoji</label>
+                            <input class="form-control" type="text" id="mineValue" value="💥"
+                                onkeydown="setThemeToCustom()">
+                        </div>
+                        <div class="col-lg input-group">
+                            <label for="clearValue" class="input-group-text">Clear Emoji</label>
+                            <input class="form-control" type="text" id="clearValue" value="🟩"
+                                onkeydown="setThemeToCustom()">
+                        </div>
+                        <div class="col-lg input-group">
+                            <label for="seperatorValue" class="input-group-text">Spoiler Tags</label>
+                            <input class="form-control" type="text" id="seperatorValue" value="||"
+                                onkeydown="setThemeToCustom()">
+                        </div>
+                        <div class="col">
+                            <button id='saveBtn' class="btn btn-success w-100" onclick="saveTheme()"
+                                value="Save Theme">Save Theme</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg">
+                            <button class="btn btn-primary w-100" onclick="generateGrid()" id="generateBtn"
+                                value="Generate New board">Generate New board</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg">
+                            <button class="btn btn-success w-100" onclick="getCopy()" id="clipboardBtn"
+                                value="Copy To Clipboard">Copy To Clipboard</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg">
+                            <button class="btn btn-warning w-100" onclick="toggleReveal()">Toggle Solution</button>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="table-responsive col-xl">
+                    <table id="grid" class="table mx-auto"></table>
                 </div>
             </div>
         </div>
